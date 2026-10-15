@@ -3,11 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f5f6f3">
+    <meta name="theme-color" content="#11110f">
     <title>DSA Atlas — 250 Pattern-Wise Problems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
   </head>
-  <body>
+  <body data-theme="dark">
     <header class="topbar">
       <a class="brand" href="#top" aria-label="DSA Atlas home">
         <span class="brand-mark">D<span>.</span></span>
@@ -22,6 +25,10 @@
         <span class="progress-dot"></span>
         <span id="top-progress-text">0 / 250 completed</span>
       </div>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light theme" title="Switch to light theme">
+        <span class="theme-icon" aria-hidden="true">☀</span>
+        <span class="theme-label">Light</span>
+      </button>
     </header>
 
     <main id="top">

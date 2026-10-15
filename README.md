@@ -13,6 +13,7 @@ Open `index.html` in a modern web browser. The site is static and does not need 
 - Open each problem's LeetCode practice link.
 - Browse all 29 pattern summaries and their priority breakdowns.
 - View the workbook's eight-phase study plan.
+- Switch between dark and light themes; your choice is saved in the current browser.
 - Track completed problems. Progress is saved in the current browser using local storage.
 - Use `/` to focus the problem search field.
 

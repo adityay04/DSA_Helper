@@ -7,6 +7,7 @@
   const priorities = workbook["Priority Summary"];
   const studyPlan = workbook["Study Plan"];
   const storageKey = "dsa-atlas-completed-v1";
+  const themeStorageKey = "dsa-atlas-theme-v1";
   const pageSize = 20;
   const state = {
     page: 1,
@@ -46,6 +47,26 @@
     } catch (error) {
       console.warn("Could not read saved DSA progress.", error);
       return {};
+    }
+  }
+
+  function setTheme(theme, shouldSave) {
+    const selectedTheme = theme === "light" ? "light" : "dark";
+    document.body.dataset.theme = selectedTheme;
+    const toggle = document.getElementById("theme-toggle");
+    const isDark = selectedTheme === "dark";
+    const nextTheme = isDark ? "light" : "dark";
+    toggle.setAttribute("aria-label", "Switch to " + nextTheme + " theme");
+    toggle.setAttribute("title", "Switch to " + nextTheme + " theme");
+    toggle.querySelector(".theme-icon").textContent = isDark ? "☀" : "☾";
+    toggle.querySelector(".theme-label").textContent = isDark ? "Light" : "Dark";
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", isDark ? "#11110f" : "#f3f1e9");
+    if (shouldSave) {
+      try {
+        localStorage.setItem(themeStorageKey, selectedTheme);
+      } catch (error) {
+        console.error("Could not save the theme preference to this browser.", error);
+      }
     }
   }
 
@@ -356,6 +377,18 @@
       event.preventDefault();
       setPatternFilter(event.target.dataset.patternCard);
     }
+  });
+
+  let savedTheme = "dark";
+  try {
+    const storedTheme = localStorage.getItem(themeStorageKey);
+    if (storedTheme === "light" || storedTheme === "dark") savedTheme = storedTheme;
+  } catch (error) {
+    console.warn("Could not read the saved theme preference.", error);
+  }
+  setTheme(savedTheme, false);
+  document.getElementById("theme-toggle").addEventListener("click", function () {
+    setTheme(document.body.dataset.theme === "dark" ? "light" : "dark", true);
   });
 
   setupOverview();
