@@ -287,6 +287,18 @@
     });
     if (view === "patterns") renderPatterns();
     if (view === "problems") renderProblems();
+    const section = elements.views[view];
+    if (section) {
+      section.classList.remove("view-enter");
+      void section.offsetWidth;
+      section.classList.add("view-enter");
+      window.requestAnimationFrame(function () {
+        section.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+          block: "start"
+        });
+      });
+    }
   }
 
   function resetFilters() {

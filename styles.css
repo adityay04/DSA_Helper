@@ -324,3 +324,70 @@ body[data-theme="dark"] .plan-note strong { color: #eee2a5; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+/* Readability pass: enlarge supporting copy while keeping the compact layout. */
+.brand { font-size: 14px; }
+.nav-link { padding: 0 7px; font-size: 15px; transition: color .18s ease, transform .18s ease, background-color .18s ease; }
+.nav-link:hover { border-radius: 5px; background: color-mix(in srgb, var(--accent) 13%, transparent); transform: translateY(-2px); }
+.nav-link.active { font-size: 15px; }
+.top-progress { font-size: 12px; }
+.theme-toggle { font-size: 12px; }
+.hero .eyebrow, .eyebrow { font-size: 11px; }
+.hero-copy > p { font-size: 15px; }
+.button { font-size: 13px; }
+.stat-label { font-size: 11px; }
+.stat-foot { font-size: 13px; }
+.section-heading p { font-size: 14px; }
+.toolbar .search-box input, .select-wrap select { font-size: 13px; }
+.reset-button, .text-button { font-size: 13px; }
+.active-filter-row { font-size: 13px; }
+.problem-table th { font-size: 11px; }
+.problem-table td { font-size: 13px; }
+.problem-name a { font-size: 14px; }
+.leetcode-id { font-size: 11px; }
+.technique, .pattern-link { font-size: 12px; }
+.badge { font-size: 11px; }
+.pagination { font-size: 12px; }
+.pagination-controls span { font-size: 12px; }
+.problem-card-number, .problem-card-pattern { font-size: 12px; }
+.problem-card h3 { font-size: 16px; }
+.problem-card-technique { font-size: 12px; }
+.pattern-card h3, .phase-card h3 { font-size: 16px; }
+.pattern-progress, .priority-stat span { font-size: 12px; }
+.priority-stat strong { font-size: 19px; }
+.pattern-index, .pattern-count, .phase-label, .phase-range { font-size: 11px; }
+.phase-goal, .plan-note p { font-size: 12px; }
+.footer { font-size: 12px; }
+
+.content-section { scroll-margin-top: 88px; }
+.content-section.view-enter { animation: section-arrive .48s cubic-bezier(.2, .75, .25, 1) both; }
+@keyframes section-arrive {
+  from { opacity: .55; transform: translateY(13px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 900px) {
+  .nav-link, .nav-link.active { font-size: 14px; }
+}
+
+@media (max-width: 620px) {
+  .topbar { gap: 4px; padding: 0 10px; }
+  .main-nav { gap: 5px; }
+  .brand { font-size: 10px; }
+  .nav-link, .nav-link.active { padding: 0 1px; font-size: 12px; }
+  .nav-link { white-space: nowrap; }
+  .top-progress { font-size: 0; }
+  .hero .eyebrow, .eyebrow { font-size: 10px; }
+  .hero-copy > p { font-size: 14px; }
+  .stat-label { font-size: 9px; }
+  .stat-foot { font-size: 11px; }
+  .section-heading p { font-size: 12px; }
+  .toolbar .search-box input, .select-wrap select { font-size: 12px; }
+  .problem-table th { font-size: 10px; }
+  .problem-table td { font-size: 12px; }
+  .problem-name a, .problem-card h3 { font-size: 14px; }
+  .technique, .pattern-link, .badge { font-size: 11px; }
+  .problem-card-technique, .problem-card-number, .problem-card-pattern { font-size: 11px; }
+  .pattern-card h3, .phase-card h3 { font-size: 15px; }
+  .footer { font-size: 11px; }
+}
