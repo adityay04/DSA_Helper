@@ -11,6 +11,7 @@ Open `index.html` in a modern web browser. The site is static and does not need 
 - Browse all 250 problems in a searchable, paginated table or card layout.
 - Filter by pattern, difficulty, priority, and completion status.
 - Open each problem's LeetCode practice link.
+- Click a problem name to open it on LeetCode or view an explanation with C++, Python, and Java solutions. Verified explanations currently cover the first five Must Do problems; the rest are clearly marked as in progress.
 - Browse all 29 pattern summaries and their priority breakdowns.
 - View the workbook's eight-phase study plan.
 - Switch between dark and light themes; your choice is saved in the current browser.
@@ -25,6 +26,7 @@ Open `index.html` in a modern web browser. The site is static and does not need 
 ├── styles.css
 ├── app.js
 ├── data.js
+├── explanations.js
 └── DSA_250_Pattern_Wise_Curated.xlsx
 ```
 
@@ -32,6 +34,7 @@ Open `index.html` in a modern web browser. The site is static and does not need 
 - `styles.css` — responsive layout and visual styles.
 - `app.js` — search, filters, views, and progress tracking.
 - `data.js` — workbook data used by the site.
+- `explanations.js` — reviewed walkthroughs and language solutions for covered problems.
 - `DSA_250_Pattern_Wise_Curated.xlsx` — original spreadsheet.
 
 ## Progress and privacy

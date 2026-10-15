@@ -37,8 +37,22 @@
     previous: document.getElementById("previous-page"),
     next: document.getElementById("next-page"),
     activeFilterRow: document.getElementById("active-filter-row"),
-    activeFilterLabel: document.getElementById("active-filter-label")
+    activeFilterLabel: document.getElementById("active-filter-label"),
+    problemDialog: document.getElementById("problem-dialog"),
+    dialogChoices: document.getElementById("problem-dialog-choices"),
+    dialogExplanation: document.getElementById("problem-dialog-explanation"),
+    dialogTitle: document.getElementById("problem-dialog-title"),
+    explanationTitle: document.getElementById("explanation-title"),
+    explanationMeta: document.getElementById("explanation-meta"),
+    explanationApproach: document.getElementById("explanation-approach"),
+    explanationComplexity: document.getElementById("explanation-complexity"),
+    explanationPending: document.getElementById("explanation-pending"),
+    pendingTechnique: document.getElementById("pending-technique"),
+    explanationContent: document.getElementById("explanation-content"),
+    explanationCode: document.getElementById("explanation-code"),
+    openProblemLink: document.getElementById("open-problem-link")
   };
+  let activeProblem = null;
 
   function loadProgress() {
     try {
@@ -167,15 +181,66 @@
       : "#";
   }
 
+  function openProblemDialog(problem) {
+    activeProblem = problem;
+    elements.dialogTitle.textContent = problem.Problem;
+    elements.openProblemLink.href = problemUrl(problem);
+    elements.openProblemLink.setAttribute("aria-label", "Open " + problem.Problem + " on LeetCode in a new tab");
+    elements.dialogChoices.hidden = false;
+    elements.dialogExplanation.hidden = true;
+    elements.problemDialog.showModal();
+  }
+
+  function showProblemExplanation() {
+    if (!activeProblem) return;
+
+    const explanation = window.DSA_EXPLANATIONS[activeProblem["LeetCode #"]];
+    elements.dialogChoices.hidden = true;
+    elements.dialogExplanation.hidden = false;
+    elements.problemDialog.setAttribute("aria-labelledby", "explanation-title");
+    elements.explanationTitle.textContent = activeProblem.Problem;
+    elements.explanationMeta.textContent = "LC " + activeProblem["LeetCode #"] +
+      " · " + activeProblem.Difficulty + " · " + activeProblem.Pattern;
+    elements.explanationContent.hidden = !explanation;
+    elements.explanationPending.hidden = Boolean(explanation);
+
+    if (!explanation) {
+      elements.pendingTechnique.textContent = activeProblem["Core Technique"] +
+        (activeProblem.Notes ? " · " + activeProblem.Notes : "");
+      document.getElementById("back-to-problem-options").focus();
+      return;
+    }
+
+    elements.explanationApproach.textContent = explanation.approach;
+    elements.explanationComplexity.hidden = false;
+    elements.explanationComplexity.textContent =
+      "Time: " + explanation.complexity.time + " · Space: " + explanation.complexity.space;
+    selectExplanationLanguage("cpp");
+    document.getElementById("back-to-problem-options").focus();
+  }
+
+  function selectExplanationLanguage(language) {
+    if (!activeProblem) return;
+    const explanation = window.DSA_EXPLANATIONS[activeProblem["LeetCode #"]];
+    if (!explanation || !explanation.code[language]) return;
+
+    document.querySelectorAll(".language-button").forEach(function (button) {
+      const selected = button.dataset.language === language;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    elements.explanationCode.textContent = explanation.code[language];
+  }
+
   function renderTable(items) {
     elements.table.innerHTML = items.map(function (problem) {
       const technique = problem["Core Technique"] +
         (problem.Notes ? " · " + problem.Notes : "");
       return "<tr>" +
         '<td class="problem-number">' + escapeHtml(problem["No."]) + "</td>" +
-        '<td><div class="problem-name"><div><a href="' + escapeHtml(problemUrl(problem)) +
-          '" target="_blank" rel="noopener noreferrer">' + escapeHtml(problem.Problem) +
-          '</a><div class="technique">' + escapeHtml(technique) +
+        '<td><div class="problem-name"><div><button class="problem-name-button" type="button" data-open-problem="' +
+          escapeHtml(problem["No."]) + '">' + escapeHtml(problem.Problem) +
+          '</button><div class="technique">' + escapeHtml(technique) +
           '</div></div><span class="leetcode-id">LC ' +
           escapeHtml(problem["LeetCode #"]) + "</span></div></td>" +
         '<td><button class="pattern-link" data-pattern="' + escapeHtml(problem.Pattern) +
@@ -193,8 +258,8 @@
       return '<article class="problem-card"><div class="problem-card-top">' +
         '<span class="problem-card-number">#' + escapeHtml(problem["No."]) + " · LC " +
         escapeHtml(problem["LeetCode #"]) + "</span>" + statusCheckbox(problem, "card-check") +
-        '</div><h3><a href="' + escapeHtml(problemUrl(problem)) +
-        '" target="_blank" rel="noopener noreferrer">' + escapeHtml(problem.Problem) + "</a></h3>" +
+        '</div><h3><button class="problem-name-button" type="button" data-open-problem="' +
+        escapeHtml(problem["No."]) + '">' + escapeHtml(problem.Problem) + "</button></h3>" +
         '<p class="problem-card-technique">' + escapeHtml(problem["Core Technique"]) +
         (problem.Notes ? " · " + escapeHtml(problem.Notes) : "") + "</p>" +
         '<div class="problem-card-footer"><div class="card-tags">' +
@@ -343,6 +408,9 @@
   document.getElementById("reset-filters").addEventListener("click", resetFilters);
   document.getElementById("empty-reset").addEventListener("click", resetFilters);
   document.getElementById("clear-pattern-filter").addEventListener("click", resetFilters);
+  document.getElementById("close-problem-dialog").addEventListener("click", function () {
+    elements.problemDialog.close();
+  });
   elements.previous.addEventListener("click", function () {
     if (state.page > 1) { state.page -= 1; renderProblems(); }
   });
@@ -368,6 +436,34 @@
   });
 
   document.addEventListener("click", function (event) {
+    const problemButton = event.target.closest("[data-open-problem]");
+    if (problemButton) {
+      const problem = problems.find(function (item) {
+        return item["No."] === problemButton.dataset.openProblem;
+      });
+      if (!problem) {
+        console.error("Could not find the selected problem.", problemButton.dataset.openProblem);
+        return;
+      }
+      openProblemDialog(problem);
+      return;
+    }
+    if (event.target.closest("#explain-problem")) {
+      showProblemExplanation();
+      return;
+    }
+    if (event.target.closest("#back-to-problem-options")) {
+      elements.dialogExplanation.hidden = true;
+      elements.dialogChoices.hidden = false;
+      elements.problemDialog.setAttribute("aria-labelledby", "problem-dialog-title");
+      document.getElementById("explain-problem").focus();
+      return;
+    }
+    const languageButton = event.target.closest(".language-button");
+    if (languageButton) {
+      selectExplanationLanguage(languageButton.dataset.language);
+      return;
+    }
     const patternButton = event.target.closest("[data-pattern]");
     if (patternButton) {
       setPatternFilter(patternButton.dataset.pattern);

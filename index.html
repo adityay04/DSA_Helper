@@ -78,7 +78,7 @@
           <div>
             <div class="eyebrow">THE CURATED SET</div>
             <h2>Problems <span class="heading-count" id="problem-count">250</span></h2>
-            <p>Find a problem, focus on the technique, and track what you’ve solved.</p>
+            <p>Select a problem name to open it on LeetCode or view its solution approach.</p>
           </div>
           <div class="view-toggle" role="group" aria-label="Problem layout">
             <button class="layout-button active" data-layout="table" aria-label="Table layout" title="Table layout">☷</button>
@@ -193,7 +193,48 @@
       </footer>
     </main>
 
+    <dialog id="problem-dialog" class="problem-dialog" aria-labelledby="problem-dialog-title">
+      <button id="close-problem-dialog" class="dialog-close" type="button" aria-label="Close dialog">×</button>
+      <section id="problem-dialog-choices">
+        <div class="eyebrow">CHOOSE YOUR NEXT STEP</div>
+        <h2 id="problem-dialog-title"></h2>
+        <p class="dialog-description">Practice the question or review its solution approach.</p>
+        <div class="dialog-actions">
+          <a id="open-problem-link" class="dialog-action dialog-action-primary" href="#" target="_blank" rel="noopener noreferrer">
+            Open on LeetCode <span aria-hidden="true">↗</span>
+          </a>
+          <button id="explain-problem" class="dialog-action" type="button">Explain this problem <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+      <section id="problem-dialog-explanation" hidden>
+        <button id="back-to-problem-options" class="dialog-back" type="button">← Back to options</button>
+        <div class="eyebrow">PROBLEM WALKTHROUGH</div>
+        <h2 id="explanation-title"></h2>
+        <p id="explanation-meta" class="explanation-meta"></p>
+        <div id="explanation-content" hidden>
+          <section class="explanation-section">
+            <h3>Approach</h3>
+            <p id="explanation-approach"></p>
+            <p id="explanation-complexity" class="explanation-complexity"></p>
+          </section>
+          <div class="language-picker" role="group" aria-label="Solution language">
+            <button class="language-button active" type="button" data-language="cpp" aria-pressed="true">C++</button>
+            <button class="language-button" type="button" data-language="python" aria-pressed="false">Python</button>
+            <button class="language-button" type="button" data-language="java" aria-pressed="false">Java</button>
+          </div>
+          <pre class="solution-code"><code id="explanation-code"></code></pre>
+        </div>
+        <aside id="explanation-pending" class="explanation-pending" hidden>
+          <strong>Detailed explanation coming soon</strong>
+          <p>The curated set currently includes this core technique:</p>
+          <p id="pending-technique" class="pending-technique"></p>
+          <p>Verified walkthroughs and C++, Python, and Java solutions are being added in batches.</p>
+        </aside>
+      </section>
+    </dialog>
+
     <script src="data.js"></script>
+    <script src="explanations.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
