@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f6f3">
+    <title>DSA Atlas — 250 Pattern-Wise Problems</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="DSA Atlas home">
+        <span class="brand-mark">D<span>.</span></span>
+        <span>DSA <span class="brand-light">ATLAS</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-link active" data-view="problems">Problems</button>
+        <button class="nav-link" data-view="patterns">Patterns</button>
+        <button class="nav-link" data-view="plan">Study plan</button>
+      </nav>
+      <div class="top-progress" aria-live="polite">
+        <span class="progress-dot"></span>
+        <span id="top-progress-text">0 / 250 completed</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> YOUR INTERVIEW PREP, ORGANIZED</div>
+          <h1>Think in <em>patterns.</em><br>Build real problem-solving range.</h1>
+          <p>One curated roadmap. 250 problems. A clearer way to turn practice into progress.</p>
+          <button class="button button-dark" data-view="problems">Explore the problem set <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit-core"><span>DSA</span><small>BY PATTERN</small></div>
+          <span class="orbit-node node-a">01</span>
+          <span class="orbit-node node-b">11</span>
+          <span class="orbit-node node-c">25</span>
+          <span class="orbit-node node-d">29</span>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Workbook overview">
+        <article class="stat-card stat-highlight">
+          <div class="stat-label">TOTAL PROBLEMS <span class="stat-icon">↗</span></div>
+          <strong id="stat-total">—</strong>
+          <span class="stat-foot">A complete pattern-wise set</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-label">CORE PATTERNS <span class="stat-icon">⌘</span></div>
+          <strong id="stat-patterns">—</strong>
+          <span class="stat-foot">From fundamentals to advanced</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-label">MUST DO <span class="stat-icon">✳</span></div>
+          <strong id="stat-must">—</strong>
+          <span class="stat-foot">Prioritize these first</span>
+        </article>
+        <article class="stat-card">
+          <div class="stat-label">YOUR PROGRESS <span class="stat-icon">◎</span></div>
+          <strong id="stat-progress">0%</strong>
+          <span class="stat-foot" id="stat-progress-foot">0 problems completed</span>
+        </article>
+      </section>
+
+      <section id="view-problems" class="content-section">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">THE CURATED SET</div>
+            <h2>Problems <span class="heading-count" id="problem-count">250</span></h2>
+            <p>Find a problem, focus on the technique, and track what you’ve solved.</p>
+          </div>
+          <div class="view-toggle" role="group" aria-label="Problem layout">
+            <button class="layout-button active" data-layout="table" aria-label="Table layout" title="Table layout">☷</button>
+            <button class="layout-button" data-layout="cards" aria-label="Card layout" title="Card layout">▦</button>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="search-input" type="search" placeholder="Search problems, patterns, techniques..." autocomplete="off">
+            <kbd>/</kbd>
+          </label>
+          <label class="select-wrap">
+            <span class="sr-only">Filter by pattern</span>
+            <select id="filter-pattern"><option value="">All patterns</option></select>
+          </label>
+          <label class="select-wrap">
+            <span class="sr-only">Filter by difficulty</span>
+            <select id="filter-difficulty">
+              <option value="">All difficulties</option>
+              <option>Easy</option><option>Medium</option><option>Hard</option>
+            </select>
+          </label>
+          <label class="select-wrap">
+            <span class="sr-only">Filter by priority</span>
+            <select id="filter-priority">
+              <option value="">All priorities</option>
+              <option>Must Do</option><option>Should Do</option>
+              <option>Advanced</option><option>Good to Know</option>
+            </select>
+          </label>
+          <label class="select-wrap">
+            <span class="sr-only">Filter by completion status</span>
+            <select id="filter-status">
+              <option value="">Any status</option>
+              <option value="todo">To do</option>
+              <option value="done">Completed</option>
+            </select>
+          </label>
+          <button class="reset-button" id="reset-filters" title="Clear all filters">Reset</button>
+        </div>
+
+        <div class="active-filter-row" id="active-filter-row" hidden>
+          <span id="active-filter-label"></span>
+          <button id="clear-pattern-filter" class="text-button">Clear filters ×</button>
+        </div>
+
+        <div id="problem-table-wrap" class="table-wrap">
+          <table class="problem-table">
+            <thead>
+              <tr>
+                <th class="number-col">#</th>
+                <th>PROBLEM</th>
+                <th>PATTERN</th>
+                <th>DIFFICULTY</th>
+                <th>PRIORITY</th>
+                <th class="status-col">STATUS</th>
+              </tr>
+            </thead>
+            <tbody id="problem-table-body"></tbody>
+          </table>
+        </div>
+        <div id="problem-card-grid" class="problem-card-grid" hidden></div>
+        <div id="empty-state" class="empty-state" hidden>
+          <span class="empty-icon">⌕</span>
+          <h3>No problems match those filters</h3>
+          <p>Try a different search or clear your filters.</p>
+          <button class="button button-outline" id="empty-reset">Clear filters</button>
+        </div>
+        <div class="pagination">
+          <span id="results-summary">Showing 1–20 of 250</span>
+          <div class="pagination-controls">
+            <button id="previous-page" class="page-button" aria-label="Previous page">←</button>
+            <span id="page-indicator">1 / 13</span>
+            <button id="next-page" class="page-button" aria-label="Next page">→</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-patterns" class="content-section alternate-view" hidden>
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">A MAP OF THE TERRITORY</div>
+            <h2>Explore by pattern</h2>
+            <p>Build recognition by learning the shape of each problem family.</p>
+          </div>
+        </div>
+        <div class="priority-breakdown" id="priority-breakdown" aria-label="Problem priorities"></div>
+        <div class="pattern-summary" id="pattern-summary"></div>
+      </section>
+
+      <section id="view-plan" class="content-section alternate-view" hidden>
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">A PLAN TO KEEP YOU MOVING</div>
+            <h2>The study plan</h2>
+            <p>Eight phases, sequenced from foundational techniques to interview polish.</p>
+          </div>
+        </div>
+        <div class="plan-note">
+          <span class="note-mark">!</span>
+          <p><strong>Spreadsheet note:</strong> Phases 3 and 4 have pattern-number ranges that don’t match their topic names. Use the topic names as your guide: Binary Search is #11, Binary Search on Answer is #12, and Trees begin at #13.</p>
+        </div>
+        <div class="plan-timeline" id="plan-timeline"></div>
+      </section>
+
+      <footer class="footer">
+        <span class="footer-brand">DSA <span>ATLAS</span></span>
+        <span>Built for deliberate practice, one pattern at a time.</span>
+        <a href="DSA_250_Pattern_Wise_Curated.xlsx">Open source spreadsheet ↗</a>
+      </footer>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
